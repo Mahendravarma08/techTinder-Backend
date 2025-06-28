@@ -62,7 +62,7 @@ userSchema.methods.validatePassword = async function (passwordInputByUser) {
 // Set the JWT token here.
 userSchema.methods.getJWT = async function () {
     const user = this
-    const token = await jwt.sign({ _id: user._id }, "Mahi")
+    const token = await jwt.sign({ _id: user._id }, "Mahi",{expiresIn:'6s'})
     return token
 }
 
