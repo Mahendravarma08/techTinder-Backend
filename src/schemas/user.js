@@ -33,6 +33,10 @@ const userSchema = new mongoose.Schema({
     },
     gender: {
         type: String,
+        enum:{
+            values:["male","female","others"],
+            message:`{VALUE} is not a gender.`
+        },
         validate(value) {
             if (!['male', 'female', 'others'].includes(value)) {
                 throw new Error("Gender data not valid.")
@@ -51,6 +55,8 @@ const userSchema = new mongoose.Schema({
     }
 }, { timestamps: true })
 
+userSchema.index({fromUserId:1,toUserId:1})
+
 // Validate password here.
 userSchema.methods.validatePassword = async function (passwordInputByUser) {
     const user = this
@@ -62,7 +68,7 @@ userSchema.methods.validatePassword = async function (passwordInputByUser) {
 // Set the JWT token here.
 userSchema.methods.getJWT = async function () {
     const user = this
-    const token = await jwt.sign({ _id: user._id }, "Mahi",{expiresIn:'6s'})
+    const token = await jwt.sign({ _id: user._id }, "Mahi")
     return token
 }
 

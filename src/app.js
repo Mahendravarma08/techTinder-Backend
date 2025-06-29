@@ -11,10 +11,12 @@ app.use(loggerMiddleware)
 const authRoute = require('./routes/auth')
 const profileRoute = require('./routes/profile')
 const requestRoute = require('./routes/requests')
+const userRoute = require('./routes/user')
 
 app.use("/",authRoute);
 app.use("/",profileRoute);
 app.use("/",requestRoute)
+app.use("/",userRoute)
 
 connectDatabase().then(() => {
     console.log('Database connection was successful..')
