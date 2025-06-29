@@ -33,6 +33,10 @@ const userSchema = new mongoose.Schema({
     },
     gender: {
         type: String,
+        enum:{
+            values:["male","female","others"],
+            message:`{VALUE} is not a gender.`
+        },
         validate(value) {
             if (!['male', 'female', 'others'].includes(value)) {
                 throw new Error("Gender data not valid.")
@@ -50,6 +54,8 @@ const userSchema = new mongoose.Schema({
         type: [String],
     }
 }, { timestamps: true })
+
+userSchema.index({fromUserId:1,toUserId:1})
 
 // Validate password here.
 userSchema.methods.validatePassword = async function (passwordInputByUser) {
